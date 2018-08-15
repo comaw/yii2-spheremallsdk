@@ -8,6 +8,12 @@ class Unit extends \Codeception\Module
 {
 
     /**
+     * [
+     *   'client_id'     => '',
+     *   'client_secret' => '',
+     *   'api_url'       => '',
+     * ]
+     *
      * @return array|mixed
      */
     public static function getConfigLocal(): array
