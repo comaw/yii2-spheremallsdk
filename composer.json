@@ -15,7 +15,8 @@
     ],
     "require": {
         "php"         : "^7.0",
-        "yiisoft/yii2": "~2.0.0"
+        "yiisoft/yii2": "~2.0.0",
+        "codeception/codeception": "^2.4"
     },
     "autoload": {
         "psr-4": {
