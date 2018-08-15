@@ -8,17 +8,39 @@
 
 namespace spheremall;
 
+use spheremall\handlers\interfaces\Handler;
 use Yii;
 use yii\web\HttpException;
 
 /**
  * Class Client
  * @package spheremall
+ *
  */
 class Client
 {
-    #region [protected properties] gateway-iedereenfitopschool.nl
+    #region [constants]
+    const DEFAULT_HANDLER = '\\spheremall\\handlers\\GatewayHandler';
+    #endregion
+
+    #region [protected properties]
+    protected static $instance;
     protected $configs = [];
+    /** @var Handler $handler */
+    protected $handler;
+    #endregion
+
+    #region [public static methods]
+    /**
+     * @param array $configs
+     *
+     * @return Client
+     * @throws HttpException
+     */
+    public static function app(array $configs = [])
+    {
+        return static::$instance ?? (static::$instance = new static($configs));
+    }
     #endregion
 
     #region [constructor]
@@ -31,11 +53,35 @@ class Client
      */
     public function __construct(array $configs = [])
     {
-        $this->setConfigs($configs);
+        if ($configs) {
+            $this->setConfigs($configs);
+        }
+        $this->setHandler();
     }
     #endregion
 
     #region [public methods]
+    /**
+     * @param string $handler
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function setHandler(string $handler = '')
+    {
+        if (!$handler) {
+            $handler = self::DEFAULT_HANDLER;
+        }
+        $this->handler = new $handler($this->configs);
+        if (!is_a($this->handler, Handler::class)) {
+            throw new HttpException(500, Yii::t('spheremall', 'Handler "{currentHandler}" is not correct "{baseHandler}" handler', [
+                'currentHandler' => $handler,
+                'baseHandler' => Handler::class,
+            ]));
+        }
+
+        return $this;
+    }
     /**
      * @param array $configs
      *

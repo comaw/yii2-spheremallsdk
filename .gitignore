@@ -5,6 +5,7 @@
 nbproject
 
 composer.lock
+/config.php
 
 # zend studio for eclipse project files
 .buildpath

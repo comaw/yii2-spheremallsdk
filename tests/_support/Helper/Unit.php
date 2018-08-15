@@ -7,4 +7,15 @@ namespace Helper;
 class Unit extends \Codeception\Module
 {
 
+    /**
+     * @return array|mixed
+     */
+    public static function getConfigLocal(): array
+    {
+        if (is_file(__DIR__ . '/../../../config.php')) {
+            return include __DIR__ . '/../../../config.php';
+        }
+
+        return [];
+    }
 }
