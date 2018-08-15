@@ -1,0 +1,33 @@
+
+{
+    "name": "comaw/yii2-spheremallsdk",
+    "description": "SphereMall SDK (not official)",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","spheremall","sdk"],
+    "license": "BSD",
+    "minimum-stability": "stable",
+    "version": "0.0.6",
+    "authors": [
+        {
+            "name": "php-shaman",
+            "email": "comaw@i.ua"
+        }
+    ],
+    "require": {
+        "php"         : "^7.0",
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "spheremall\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "spheremall\\": "tests/"
+        }
+    },
+    "extra": {
+        "bootstrap": "spheremall\\Bootstrap"
+    }
+}
