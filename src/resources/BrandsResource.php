@@ -8,13 +8,22 @@
 
 namespace spheremall\resources;
 
-use spheremall\resources\interfaces\Resource;
+use spheremall\resources\base\BaseResource;
+use spheremall\resources\traits\ResourceOne;
 
 /**
  * Class BrandsResource
  * @package spheremall\resources
  */
-class BrandsResource implements Resource
+class BrandsResource extends BaseResource
 {
+    use ResourceOne;
 
+    /**
+     * @return string
+     */
+    public function getBasePath(): string
+    {
+        return 'brands';
+    }
 }

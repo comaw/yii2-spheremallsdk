@@ -14,5 +14,13 @@ namespace spheremall\resources\interfaces;
  */
 interface Resource
 {
+    /**
+     * @param int $id
+     */
+    public function one(int $id = 0);
 
+    /**
+     * @return string
+     */
+    public function getBasePath(): string;
 }

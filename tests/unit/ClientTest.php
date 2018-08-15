@@ -1,7 +1,6 @@
 <?php
 
 use spheremall\Client;
-use spheremall\resources\interfaces\Resource;
 
 /**
  * Class ClientTest

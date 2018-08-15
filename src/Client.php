@@ -209,7 +209,7 @@ class Client
         if (!class_exists($resourceName)) {
             throw new HttpException(500, Yii::t('spheremall', '"{resourceName}" resource not found', ['resourceName' => $name]));
         }
-        $this->{$name} = new $resourceName();
+        $this->{$name} = new $resourceName($this->handler);
 
         return $this;
     }
