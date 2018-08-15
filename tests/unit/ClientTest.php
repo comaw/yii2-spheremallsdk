@@ -1,6 +1,7 @@
 <?php
 
 use spheremall\Client;
+use spheremall\resources\interfaces\Resource;
 
 /**
  * Class ClientTest
@@ -23,15 +24,27 @@ class ClientTest extends \Codeception\Test\Unit
     }
 
     /**
-     * tests connection to API
+     * tests setting configs
      *
      * @throws \yii\web\HttpException
      */
-    public function testConnection()
+    public function testSetConfigs()
     {
         $client = Client::app($this->configLocal);
 
         $this->assertTrue(is_a($client, Client::class));
         $this->assertTrue(is_a($client, Client::class));
+    }
+
+    /**
+     * Test resource set and use
+     *
+     * @throws \yii\web\HttpException
+     */
+    public function testResource()
+    {
+        $client = Client::app($this->configLocal);
+
+        $this->assertTrue(is_a($client->brands, \spheremall\resources\interfaces\Resource::class));
     }
 }

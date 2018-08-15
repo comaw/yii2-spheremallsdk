@@ -9,6 +9,7 @@
 namespace spheremall;
 
 use spheremall\handlers\interfaces\Handler;
+use spheremall\resources\BrandsResource;
 use Yii;
 use yii\web\HttpException;
 
@@ -16,6 +17,7 @@ use yii\web\HttpException;
  * Class Client
  * @package spheremall
  *
+ * @property BrandsResource $brands
  */
 class Client
 {
@@ -28,6 +30,8 @@ class Client
     protected $configs = [];
     /** @var Handler $handler */
     protected $handler;
+    /** @var array $listOfResources */
+    protected $listOfResources = [];
     #endregion
 
     #region [public static methods]
@@ -61,6 +65,31 @@ class Client
     #endregion
 
     #region [public methods]
+    /**
+     * @param $resource
+     *
+     * @return $this
+     * @throws HttpException
+     */
+    public function resource($resource)
+    {
+        if (is_string($resource)) {
+            $this->setResource($resource);
+
+            return $this;
+        }
+
+        if (is_array($resource)) {
+            foreach ($resource as $resourceName) {
+                $this->setResource($resourceName);
+            }
+
+            return $this;
+        }
+
+        throw new HttpException(500, Yii::t('spheremall', '"resource" param must be a string or an array of strings'));
+    }
+
     /**
      * @param string $handler
      *
@@ -107,6 +136,80 @@ class Client
 
             throw new HttpException(500, $message);
         }
+
+        return $this;
+    }
+    #endregion
+
+    #region [public magic methods]
+    /**
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return $this
+     */
+    public function __set(string $name, $value)
+    {
+        $this->listOfResources[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return mixed|null
+     * @throws HttpException
+     */
+    public function __get(string $name)
+    {
+        if (!array_key_exists($name, $this->listOfResources)) {
+            $this->setResource($name);
+        }
+
+        return $this->listOfResources[$name] ?? null;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function __isset(string $name)
+    {
+        return array_key_exists($name, $this->listOfResources);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function __unset(string $name)
+    {
+        if (array_key_exists($name, $this->listOfResources)) {
+            unset($this->listOfResources[$name]);
+        }
+
+        return $this;
+    }
+    #endregion
+
+    #region [public magic methods]
+    /**
+     * @param string $name
+     *
+     * @return Client
+     * @throws HttpException
+     */
+    protected function setResource(string $name)
+    {
+        $name = mb_strtolower($name);
+        $resourceName = '\\spheremall\\resources\\' . ucfirst($name) . 'Resource';
+        if (!class_exists($resourceName)) {
+            throw new HttpException(500, Yii::t('spheremall', '"{resourceName}" resource not found', ['resourceName' => $name]));
+        }
+        $this->{$name} = new $resourceName();
 
         return $this;
     }
