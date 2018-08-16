@@ -45,5 +45,8 @@ class ClientTest extends \Codeception\Test\Unit
         $client = Client::app($this->configLocal);
 
         $this->assertTrue(is_a($client->brands, \spheremall\resources\interfaces\Resource::class));
+
+        $content = $client->brands->one(1);
+        $m = 1;
     }
 }

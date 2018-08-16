@@ -21,4 +21,13 @@ interface Handler
      *
      */
     public function setConfigs(array $configs);
+
+    /**
+     * @param string $url
+     *
+     * @param bool $critical
+     *
+     * @return mixed
+     */
+    public function request(string $url, bool $critical = true);
 }

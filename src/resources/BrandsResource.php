@@ -9,7 +9,6 @@
 namespace spheremall\resources;
 
 use spheremall\resources\base\BaseResource;
-use spheremall\resources\traits\ResourceOne;
 
 /**
  * Class BrandsResource
@@ -17,13 +16,11 @@ use spheremall\resources\traits\ResourceOne;
  */
 class BrandsResource extends BaseResource
 {
-    use ResourceOne;
-
     /**
      * @return string
      */
     public function getBasePath(): string
     {
-        return 'brands';
+        return 'v1/brands';
     }
 }

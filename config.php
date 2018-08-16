@@ -9,5 +9,5 @@
 return [
     'client_id' => 'api_demo_user',
     'client_secret' => 'demo_pass',
-    'api_url' => 'http://gateway-main.alpha.spheremall.net',
+    'apiUrl' => 'http://gateway-main.alpha.spheremall.net',
 ];

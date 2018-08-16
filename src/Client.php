@@ -120,7 +120,7 @@ class Client
     public function setConfigs(array $configs = [])
     {
         $this->configs = $configs ? $configs : (Yii::$app->params['spheremall'] ?? []);
-        if (!isset($this->configs['api_url'])) {
+        if (!isset($this->configs['apiUrl'])) {
             $message = $configs
                 ? Yii::t('spheremall', '"api_url" params not set')
                 : Yii::t('spheremall', '"api_url" params not set in config/params.php file');

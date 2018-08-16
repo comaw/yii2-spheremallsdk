@@ -9,6 +9,9 @@
 namespace spheremall\handlers;
 
 use spheremall\handlers\interfaces\Handler;
+use yii\httpclient\Client;
+use yii\web\HttpException;
+use Yii;
 
 /**
  * Class GatewayHandler
@@ -17,7 +20,9 @@ use spheremall\handlers\interfaces\Handler;
 class GatewayHandler implements Handler
 {
 
-    protected $url;
+    protected $apiUrl;
+    /** @var Client $http */
+    protected $http;
 
     /**
      * GatewayHandler constructor.
@@ -29,6 +34,10 @@ class GatewayHandler implements Handler
         if ($configs) {
             $this->setConfigs($configs);
         }
+
+        $this->http = new Client([
+            'transport' => 'yii\httpclient\CurlTransport'
+        ]);
     }
 
     /**
@@ -45,5 +54,33 @@ class GatewayHandler implements Handler
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @param bool $critical
+     *
+     * @return mixed
+     * @throws HttpException
+     * @throws \yii\httpclient\Exception
+     */
+    public function request(string $url, bool $critical = true)
+    {
+        $url = $this->apiUrl . '/' . $url;
+
+        $response = $this->http->createRequest()
+            ->setMethod('GET')
+            ->setUrl($url)
+            ->send();
+        if ($response->isOk) {
+            return $response->getContent();
+        }
+
+        if ($critical) {
+            throw new HttpException($response->getStatusCode(), $response->getContent());
+        }
+
+        return $response->getContent();
     }
 }

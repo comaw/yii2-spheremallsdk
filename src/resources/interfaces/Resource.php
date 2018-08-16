@@ -17,7 +17,7 @@ interface Resource
     /**
      * @param int $id
      */
-    public function one(int $id = 0);
+    public function one(int $id);
 
     /**
      * @return string

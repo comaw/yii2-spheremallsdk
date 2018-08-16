@@ -17,9 +17,20 @@ use spheremall\resources\interfaces\Resource;
  */
 abstract class BaseResource implements Resource
 {
+
+    #region [protected properties]
     /** @var Handler $handler */
     protected $handler;
+    #endregion
 
+    #region [abstract public methods]
+    /**
+     * @return string
+     */
+    abstract public function getBasePath(): string;
+    #endregion
+
+    #region [constructor]
     /**
      * BrandsResource constructor.
      * @param Handler|null $handler
@@ -29,6 +40,20 @@ abstract class BaseResource implements Resource
         if ($handler) {
             $this->setHandler($handler);
         }
+    }
+    #endregion
+
+    #region [public methods]
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function one(int $id)
+    {
+        $url = $this->getBasePath() . '/' . $id;
+
+        return $this->handler->request($url);
     }
 
     /**
@@ -41,17 +66,9 @@ abstract class BaseResource implements Resource
 
         return $this;
     }
+    #endregion
 
-    /**
-     * @param int $id
-     */
-    abstract public function one(int $id = 0);
-
-    /**
-     * @return string
-     */
-    abstract public function getBasePath(): string;
-
+    #region [public methods]
     /**
      * @param string $path
      * @return string
@@ -66,4 +83,5 @@ abstract class BaseResource implements Resource
 
         return '/' . join('/', $url);
     }
+    #endregion
 }
