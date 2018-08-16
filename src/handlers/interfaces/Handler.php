@@ -24,10 +24,11 @@ interface Handler
 
     /**
      * @param string $url
+     * @param array $params
      *
      * @param bool $critical
      *
      * @return mixed
      */
-    public function request(string $url, bool $critical = true);
+    public function request(string $url, array $params = [], bool $critical = true);
 }

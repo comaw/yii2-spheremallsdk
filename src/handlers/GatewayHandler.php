@@ -11,7 +11,6 @@ namespace spheremall\handlers;
 use spheremall\handlers\interfaces\Handler;
 use yii\httpclient\Client;
 use yii\web\HttpException;
-use Yii;
 
 /**
  * Class GatewayHandler
@@ -21,6 +20,7 @@ class GatewayHandler implements Handler
 {
 
     protected $apiUrl;
+    protected $version = 'v1';
     /** @var Client $http */
     protected $http;
 
@@ -58,6 +58,7 @@ class GatewayHandler implements Handler
 
     /**
      * @param string $url
+     * @param array $params
      *
      * @param bool $critical
      *
@@ -65,9 +66,9 @@ class GatewayHandler implements Handler
      * @throws HttpException
      * @throws \yii\httpclient\Exception
      */
-    public function request(string $url, bool $critical = true)
+    public function request(string $url, array $params = [], bool $critical = true)
     {
-        $url = $this->apiUrl . '/' . $url;
+        $url = $this->getBaseUrlWithVersion() . '/' . $url . ($params ?  '/by?' . http_build_query($params) : '');
 
         $response = $this->http->createRequest()
             ->setMethod('GET')
@@ -82,5 +83,13 @@ class GatewayHandler implements Handler
         }
 
         return $response->getContent();
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrlWithVersion(): string
+    {
+        return $this->apiUrl . '/' . $this->version;
     }
 }

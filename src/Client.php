@@ -10,6 +10,7 @@ namespace spheremall;
 
 use spheremall\handlers\interfaces\Handler;
 use spheremall\resources\BrandsResource;
+use spheremall\resources\ProductsResource;
 use Yii;
 use yii\web\HttpException;
 
@@ -18,6 +19,7 @@ use yii\web\HttpException;
  * @package spheremall
  *
  * @property BrandsResource $brands
+ * @property ProductsResource $products
  */
 class Client
 {

@@ -46,7 +46,11 @@ class ClientTest extends \Codeception\Test\Unit
 
         $this->assertTrue(is_a($client->brands, \spheremall\resources\interfaces\Resource::class));
 
-        $content = $client->brands->one(1);
+//        $content = $client->brands->one(1);
+        $contentp = $client->products->where(['e', 'urlCode', 'vers-sushi-teriyaki-kip-maki'])
+            ->where(['e', 'visible', '1'])
+            ->list();
+        $contentp = \yii\helpers\Json::decode($contentp, true);
         $m = 1;
     }
 }

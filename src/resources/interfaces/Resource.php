@@ -20,7 +20,25 @@ interface Resource
     public function one(int $id);
 
     /**
+     * @return mixed
+     */
+    public function list();
+
+    /**
      * @return string
      */
     public function getBasePath(): string;
+
+    /**
+     * Add query params
+     * For example:
+     * ['e', 'url', 'some_url'] => [{"url":{"e":"some_url"}}]
+     * ['ne', 'active', '1'] => [{"active":{"ne":"1"}}]
+     *
+     *
+     * @param array $param
+     *
+     * @return Resource
+     */
+    public function where(array $param);
 }

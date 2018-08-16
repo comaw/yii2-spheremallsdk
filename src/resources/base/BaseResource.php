@@ -10,6 +10,7 @@ namespace spheremall\resources\base;
 
 use spheremall\handlers\interfaces\Handler;
 use spheremall\resources\interfaces\Resource;
+use spheremall\resources\traits\WhereParamResource;
 
 /**
  * Class BaseResource
@@ -17,10 +18,13 @@ use spheremall\resources\interfaces\Resource;
  */
 abstract class BaseResource implements Resource
 {
+    use WhereParamResource;
 
     #region [protected properties]
     /** @var Handler $handler */
     protected $handler;
+
+    protected $queriesParams = [];
     #endregion
 
     #region [abstract public methods]
@@ -53,7 +57,17 @@ abstract class BaseResource implements Resource
     {
         $url = $this->getBasePath() . '/' . $id;
 
-        return $this->handler->request($url);
+        return $this->handler->request($url, $this->getParams());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function list()
+    {
+        $url = $this->getBasePath() . '';
+
+        return $this->handler->request($url, $this->getParams());
     }
 
     /**
@@ -82,6 +96,14 @@ abstract class BaseResource implements Resource
         }
 
         return '/' . join('/', $url);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getParams(): array
+    {
+        return $this->queriesParams;
     }
     #endregion
 }
