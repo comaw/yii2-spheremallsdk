@@ -10,6 +10,7 @@ namespace spheremall\resources\base;
 
 use spheremall\handlers\interfaces\Handler;
 use spheremall\resources\interfaces\Resource;
+use spheremall\resources\traits\LimitParamResource;
 use spheremall\resources\traits\WhereParamResource;
 
 /**
@@ -18,7 +19,7 @@ use spheremall\resources\traits\WhereParamResource;
  */
 abstract class BaseResource implements Resource
 {
-    use WhereParamResource;
+    use WhereParamResource, LimitParamResource;
 
     #region [protected properties]
     /** @var Handler $handler */
