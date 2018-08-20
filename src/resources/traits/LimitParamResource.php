@@ -30,4 +30,11 @@ trait LimitParamResource
 
         return $this;
     }
+
+    public function offset(int $offset = 0, bool $replace = true)
+    {
+        $this->queriesParams['offset'] = $offset;
+
+        return $this;
+    }
 }

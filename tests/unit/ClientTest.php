@@ -49,7 +49,9 @@ class ClientTest extends \Codeception\Test\Unit
 //        $content = $client->brands->one(1);
         $contentp = $client->products->where(['e', 'urlCode', 'vers-sushi-teriyaki-kip-maki'])
             ->where(['e', 'visible', '1'])
-            ->list();
+            ->limit(2)
+            ->offset(0)
+            ->one();
         $contentp = \yii\helpers\Json::decode($contentp, true);
         $m = 1;
     }

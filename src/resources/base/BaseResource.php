@@ -10,6 +10,7 @@ namespace spheremall\resources\base;
 
 use spheremall\handlers\interfaces\Handler;
 use spheremall\resources\interfaces\Resource;
+use spheremall\resources\traits\InParamResource;
 use spheremall\resources\traits\LimitParamResource;
 use spheremall\resources\traits\WhereParamResource;
 
@@ -19,7 +20,7 @@ use spheremall\resources\traits\WhereParamResource;
  */
 abstract class BaseResource implements Resource
 {
-    use WhereParamResource, LimitParamResource;
+    use WhereParamResource, LimitParamResource, InParamResource;
 
     #region [protected properties]
     /** @var Handler $handler */
@@ -50,11 +51,23 @@ abstract class BaseResource implements Resource
 
     #region [public methods]
     /**
+     *
+     * @return mixed
+     */
+    public function one()
+    {
+        $url = $this->getBasePath() . '';
+        $this->limit(1)->offset(0);
+
+        return $this->handler->request($url, $this->getParams());
+    }
+
+    /**
      * @param int $id
      *
      * @return mixed
      */
-    public function one(int $id)
+    public function oneById(int $id)
     {
         $url = $this->getBasePath() . '/' . $id;
 

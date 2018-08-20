@@ -15,9 +15,14 @@ namespace spheremall\resources\interfaces;
 interface Resource
 {
     /**
+     * Get first result by params
+     */
+    public function one();
+
+    /**
      * @param int $id
      */
-    public function one(int $id);
+    public function oneById(int $id);
 
     /**
      * @return mixed
@@ -41,4 +46,16 @@ interface Resource
      * @return Resource
      */
     public function where(array $param);
+
+    /**
+     * Add in params
+     * For example:
+     * ['url', ['some_url', '1', 'any']] => [{"url":["some_url", "1", "any"]}]
+     *
+     *
+     * @param array $in
+     *
+     * @return Resource|$this
+     */
+    public function in(array $in);
 }
