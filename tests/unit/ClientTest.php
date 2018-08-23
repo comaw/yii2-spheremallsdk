@@ -48,6 +48,7 @@ class ClientTest extends \Codeception\Test\Unit
 
 //        $content = $client->brands->one(1);
         $contentp = $client->products->where(['e', 'urlCode', 'vers-sushi-teriyaki-kip-maki'])
+            ->with(['brands', 'functionalnames'])
             ->where(['e', 'visible', '1'])
             ->limit(2)
             ->offset(0)

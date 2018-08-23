@@ -9,6 +9,7 @@
 namespace spheremall\resources\base;
 
 use spheremall\handlers\interfaces\Handler;
+use spheremall\makers\interfaces\MakerInterface;
 use spheremall\resources\interfaces\Resource;
 use spheremall\resources\traits\InParamResource;
 use spheremall\resources\traits\LimitParamResource;
@@ -25,8 +26,12 @@ abstract class BaseResource implements Resource
     #region [protected properties]
     /** @var Handler $handler */
     protected $handler;
-
-    protected $queriesParams = [];
+    /** @var array  $queriesParams*/
+    protected $queriesParams     = [];
+    /** @var array  $relationResources*/
+    protected $relationResources = [];
+    /** @var MakerInterface $maker */
+    protected $maker;
     #endregion
 
     #region [abstract public methods]
@@ -34,6 +39,13 @@ abstract class BaseResource implements Resource
      * @return string
      */
     abstract public function getBasePath(): string;
+
+    /**
+     * @param MakerInterface $maker
+     *
+     * @return $this
+     */
+    abstract public function setMaker(MakerInterface $maker);
     #endregion
 
     #region [constructor]
@@ -51,6 +63,18 @@ abstract class BaseResource implements Resource
 
     #region [public methods]
     /**
+     * @param array $resources
+     *
+     * @return $this
+     */
+    public function with(array $resources)
+    {
+        $this->relationResources = $resources;
+
+        return $this;
+    }
+
+    /**
      *
      * @return mixed
      */
@@ -59,7 +83,11 @@ abstract class BaseResource implements Resource
         $url = $this->getBasePath() . '';
         $this->limit(1)->offset(0);
 
-        return $this->handler->request($url, $this->getParams());
+        $response = $this->handler->request($url, $this->getParams());
+
+        $entities = $this->maker->setData($response)->generate()->getEntities();
+
+        return $entities[0] ?? null;
     }
 
     /**
@@ -97,6 +125,11 @@ abstract class BaseResource implements Resource
     #endregion
 
     #region [public methods]
+    protected function getRelations()
+    {
+
+    }
+
     /**
      * @param string $path
      * @return string

@@ -8,6 +8,7 @@
 
 namespace spheremall\resources;
 
+use spheremall\makers\interfaces\MakerInterface;
 use spheremall\resources\base\BaseResource;
 
 /**
@@ -22,5 +23,12 @@ class BrandsResource extends BaseResource
     public function getBasePath(): string
     {
         return 'brands';
+    }
+
+    public function setMaker(MakerInterface $maker)
+    {
+        $this->maker = $maker;
+
+        return $this;
     }
 }

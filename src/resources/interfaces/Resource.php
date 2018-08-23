@@ -58,4 +58,12 @@ interface Resource
      * @return Resource|$this
      */
     public function in(array $in);
+
+    /**
+     * Set relationships for resources
+     *
+     * @param array $resources
+     *
+     */
+    public function with(array $resources);
 }
