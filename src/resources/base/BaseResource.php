@@ -91,7 +91,11 @@ abstract class BaseResource implements Resource
 
         $this->entities = $this->maker->setData($response)->generate()->getEntities();
 
-        return $entities[0] ?? null;
+        if ($this->entities) {
+            $this->getRelations();
+        }
+
+        return $this->entities[0] ?? null;
     }
 
     /**
@@ -129,9 +133,21 @@ abstract class BaseResource implements Resource
     #endregion
 
     #region [public methods]
+    /**
+     * @return $this
+     */
     protected function getRelations()
     {
+        if (!$this->relationResources) {
+            return $this;
+        }
 
+        foreach ($this->relationResources as $resource) {
+            $nameResource = ucfirst($resource);
+            $relations = 1;
+        }
+
+        return $this;
     }
 
     /**

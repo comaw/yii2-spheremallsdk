@@ -8,11 +8,18 @@
 
 namespace spheremall\models\interfaces;
 
+use spheremall\models\base\ModelBase;
+
 /**
  * Interface ModelInterface
  * @package spheremall\models\interfaces
  */
 interface ModelInterface
 {
-
+    /**
+     * @param array $attributes
+     *
+     * @return ModelBase
+     */
+    public function setAttributes(array $attributes);
 }

@@ -49,7 +49,10 @@ abstract class Maker implements MakerInterface
     {
         $data     = $this->data['data'] ?? [];
         $included = $this->data['included'] ?? [];
-
+        if (!$data) {
+            return $this;
+        }
+        $this->dataProcessing($data);
 
         return $this;
     }
@@ -60,5 +63,22 @@ abstract class Maker implements MakerInterface
     public function getEntities(): array
     {
         return $this->entities;
+    }
+
+    protected function dataProcessing(array $data)
+    {
+        foreach ($data as $entity) {
+            $type = $entity['type'] ?? '';
+            if (!$type) {
+                continue;
+            }
+            $modelName = '\\spheremall\\models\\' . ucfirst($type);
+            if (!class_exists($modelName)) {
+                continue;
+            }
+            $this->entities[] = new $modelName($entity);
+        }
+
+        return $this;
     }
 }
