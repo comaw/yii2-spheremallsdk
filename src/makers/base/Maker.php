@@ -9,6 +9,7 @@
 namespace spheremall\makers\base;
 
 use spheremall\makers\interfaces\MakerInterface;
+use yii\helpers\Json;
 
 /**
  * Class Maker
@@ -30,13 +31,13 @@ abstract class Maker implements MakerInterface
     }
 
     /**
-     * @param array $data
+     * @param string $data
      *
      * @return $this|MakerInterface
      */
-    public function setData(array $data)
+    public function setData(string $data)
     {
-        $this->data = $data;
+        $this->data = Json::decode($data);
 
         return $this;
     }
@@ -46,6 +47,10 @@ abstract class Maker implements MakerInterface
      */
     public function generate()
     {
+        $data     = $this->data['data'] ?? [];
+        $included = $this->data['included'] ?? [];
+
+
         return $this;
     }
 

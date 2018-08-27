@@ -9,6 +9,7 @@
 namespace spheremall\resources\base;
 
 use spheremall\handlers\interfaces\Handler;
+use spheremall\makers\EntitiesMaker;
 use spheremall\makers\interfaces\MakerInterface;
 use spheremall\resources\interfaces\Resource;
 use spheremall\resources\traits\InParamResource;
@@ -32,6 +33,8 @@ abstract class BaseResource implements Resource
     protected $relationResources = [];
     /** @var MakerInterface $maker */
     protected $maker;
+    /** @var array $entities */
+    protected $entities;
     #endregion
 
     #region [abstract public methods]
@@ -58,6 +61,7 @@ abstract class BaseResource implements Resource
         if ($handler) {
             $this->setHandler($handler);
         }
+        $this->maker = new EntitiesMaker();
     }
     #endregion
 
@@ -85,7 +89,7 @@ abstract class BaseResource implements Resource
 
         $response = $this->handler->request($url, $this->getParams());
 
-        $entities = $this->maker->setData($response)->generate()->getEntities();
+        $this->entities = $this->maker->setData($response)->generate()->getEntities();
 
         return $entities[0] ?? null;
     }

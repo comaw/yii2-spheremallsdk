@@ -16,11 +16,10 @@ interface MakerInterface
 {
 
     /**
-     * @param array $data
+     * @param string $data
      *
-     * @return $this
      */
-    public function setData(array $data);
+    public function setData(string $data);
 
     /**
      * @return $this
